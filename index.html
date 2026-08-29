@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- ======================= SEO & META ======================= -->
+  <title>Nexavia — Sites Web d'Exception qui Génèrent des Ventes</title>
+  <meta name="description" content="Nexavia conçoit des sites web sur-mesure, ultra-rapides et optimisés pour convertir vos visiteurs en clients. Démarrez votre projet sur WhatsApp." />
+  <meta name="author" content="Nexavia" />
+  <meta name="theme-color" content="#0a0a0f" />
+
+  <!-- Open Graph (indispensable pour que vos pubs Meta/Google affichent une belle vignette) -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Nexavia — Sites Web d'Exception qui Génèrent des Ventes" />
+  <meta property="og:description" content="Des sites web sur-mesure, ultra-rapides et optimisés pour convertir vos visiteurs en clients. Discutons de votre projet sur WhatsApp." />
+  <meta property="og:url" content="https://nexavia.com" />
+  <meta property="og:image" content="https://nexavia.com/og-cover.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <!-- Favicon en ligne (logo Nexavia stylisé) -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%2300f2fe'/%3E%3Cstop offset='1' stop-color='%234facfe'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='16' fill='%230a0a0f'/%3E%3Cpath d='M16 44V20l16 14 16-14v24' fill='none' stroke='url(%23g)' stroke-width='6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E" />
+
+  <!-- Police Google Fonts (Space Grotesk pour les titres, Inter pour le corps) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS (Play CDN) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            base: "#0a0a0f",
+            cyan: { brand: "#00f2fe" },
+            blue: { brand: "#4facfe" },
+            violet: { brand: "#a855f7" },
+          },
+          fontFamily: {
+            display: ["'Space Grotesk'", "sans-serif"],
+            body: ["'Inter'", "sans-serif"],
+          },
+        },
+      },
+    };
+  </script>
+
+  <!-- ======================= STYLES PERSONNALISÉS ======================= -->
+  <style>
+    :root {
+      --cyan: #00f2fe;
+      --blue: #4facfe;
+      --violet: #a855f7;
+      --bg: #0a0a0f;
+    }
+
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); font-family: 'Inter', sans-serif; }
+
+    /* ----- Effet de texte en dégradé néon ----- */
+    .text-gradient {
+      background: linear-gradient(120deg, var(--cyan), var(--blue) 55%, var(--violet));
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* ----- Fond : blobs néon flous animés ----- */
+    .blob {
+      position: absolute;
+      border-radius: 9999px;
+      filter: blur(90px);
+      opacity: 0.35;
+      z-index: 0;
+      pointer-events: none;
+    }
+    @keyframes float1 { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(40px,-30px) scale(1.15); } }
+    @keyframes float2 { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(-50px,40px) scale(1.1); } }
+    .blob-1 { width: 380px; height: 380px; background: var(--cyan); top: -80px; left: -60px; animation: float1 14s ease-in-out infinite; }
+    .blob-2 { width: 420px; height: 420px; background: var(--violet); top: 20%; right: -120px; animation: float2 18s ease-in-out infinite; }
+    .blob-3 { width: 320px; height: 320px; background: var(--blue); bottom: -100px; left: 30%; animation: float1 16s ease-in-out infinite; }
+
+    /* ----- Verre dépoli (glassmorphism) ----- */
+    .glass {
+      background: rgba(255,255,255,0.04);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+    .glass:hover { border-color: rgba(0,242,254,0.45); }
+
+    /* ----- CARTES : survol néon + élévation ----- */
+    .card-hover {
+      transition: transform .35s cubic-bezier(.2,.8,.2,1), box-shadow .35s ease, border-color .35s ease;
+    }
+    .card-hover:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 20px 50px -15px rgba(0,242,254,0.35);
+    }
+
+    /* ----- Bordure gradient animée ----- */
+    .glow-border::before {
+      content: "";
+      position: absolute; inset: 0;
+      border-radius: inherit;
+      padding: 1px;
+      background: linear-gradient(120deg, var(--cyan), var(--violet), var(--blue));
+      -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+      -webkit-mask-composite: xor; mask-composite: exclude;
+      opacity: 0; transition: opacity .35s ease;
+    }
+    .glow-border:hover::before { opacity: 1; }
+
+    /* ----- Bouton CTA principal (pulse néon) ----- */
+    .btn-cta {
+      position: relative;
+      background: linear-gradient(120deg, var(--cyan), var(--blue));
+      color: #04121a; font-weight: 700;
+      box-shadow: 0 8px 30px -8px rgba(0,242,254,0.6);
+      transition: transform .25s ease, box-shadow .25s ease;
+    }
+    .btn-cta:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 14px 45px -8px rgba(0,242,254,0.8); }
+    @keyframes pulseRing {
+      0% { box-shadow: 0 0 0 0 rgba(0,242,254,0.55); }
+      70% { box-shadow: 0 0 0 18px rgba(0,242,254,0); }
+      100% { box-shadow: 0 0 0 0 rgba(0,242,254,0); }
+    }
+    .pulse { animation: pulseRing 2.4s infinite; }
+
+    /* ----- Bouton WhatsApp flottant ----- */
+    @keyframes waPulse {
+      0% { box-shadow: 0 0 0 0 rgba(37,211,102,0.6); }
+      70% { box-shadow: 0 0 0 22px rgba(37,211,102,0); }
+      100% { box-shadow: 0 0 0 0 rgba(37,211,102,0); }
+    }
+    .wa-float { animation: waPulse 2.6s infinite; }
+    .wa-float:hover { transform: scale(1.08); }
+
+    /* ----- Reveal au scroll ----- */
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity .7s ease, transform .7s cubic-bezier(.2,.8,.2,1); }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ----- Lignes graffiti / grille subtile ----- */
+    .grid-bg {
+      background-image:
+        linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px);
+      background-size: 46px 46px;
+    }
+
+    /* ----- Barre de défilement ----- */
+    ::-webkit-scrollbar { width: 9px; }
+    ::-webkit-scrollbar-track { background: #0a0a0f; }
+    ::-webkit-scrollbar-thumb { background: linear-gradient(var(--cyan), var(--violet)); border-radius: 9px; }
+
+    /* Respect des préférences de mouvement réduit */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+      html { scroll-behavior: auto; }
+    }
+  </style>
+</head>
+
+<body class="font-body text-slate-200 antialiased overflow-x-hidden">
+
+  <!-- Fond animé global -->
+  <div class="fixed inset-0 -z-10 overflow-hidden">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+    <div class="absolute inset-0 grid-bg opacity-60"></div>
+  </div>
+
+  <!-- ======================= NAVBAR ======================= -->
+  <header id="navbar" class="fixed top-0 inset-x-0 z-50 transition-all duration-300">
+    <nav class="max-w-7xl mx-auto px-5 sm:px-8 py-4 flex items-center justify-between glass rounded-none sm:rounded-2xl sm:mt-3">
+      <!-- Logo -->
+      <a href="#accueil" class="flex items-center gap-2 group">
+        <span class="w-9 h-9 rounded-xl bg-gradient-to-br from-cyan-brand to-blue-brand flex items-center justify-center shadow-lg shadow-cyan-brand/30">
+          <svg viewBox="0 0 24 24" class="w-5 h-5" fill="none" stroke="#04121a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 17V7l7 6 7-6v10" />
+          </svg>
+        </span>
+        <span class="font-display font-bold text-xl tracking-tight text-white">Nexavia</span>
+      </a>
+
+      <!-- Liens desktop -->
+      <ul class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-300">
+        <li><a href="#accueil" class="hover:text-cyan-brand transition">Accueil</a></li>
+        <li><a href="#services" class="hover:text-cyan-brand transition">Services</a></li>
+        <li><a href="#portfolio" class="hover:text-cyan-brand transition">Portfolio</a></li>
+        <li><a href="#temoignages" class="hover:text-cyan-brand transition">Témoignages</a></li>
+        <li><a href="#contact" class="hover:text-cyan-brand transition">Contact</a></li>
+      </ul>
+
+      <!-- CTA desktop -->
+      <a href="https://wa.me/22892264531?text=Bonjour%20Nexavia%2C%20je%20souhaite%20lancer%20un%20projet%20web." target="_blank" rel="noopener"
+         class="hidden md:inline-flex btn-cta pulse items-center gap-2 px-5 py-2.5 rounded-xl text-sm">
+        <svg viewBox="0 0 24 24" class="w-4 h-4" fill="currentColor"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm5.8 13.36c-.24.68-1.4 1.3-1.93 1.34-.5.05-1.14.07-1.84-.12-.41-.13-.94-.31-1.62-.61-2.85-1.24-4.7-4.11-4.84-4.3-.15-.2-1.18-1.57-1.18-3 0-1.42.75-2.12 1.01-2.41.27-.3.58-.37.77-.37.19 0 .39 0 .56.01.18.01.42-.07.66.5.24.58.83 2 .9 2.15.07.15.12.32.02.52-.09.2-.14.32-.28.49-.14.17-.29.38-.42.51-.14.14-.28.29-.12.56.16.27.71 1.17 1.53 1.9 1.05.94 1.94 1.23 2.21 1.37.27.14.43.12.59-.07.16-.2.68-.8.86-1.07.18-.27.36-.22.61-.13.25.09 1.6.75 1.87.89.27.14.45.2.52.31.07.12.07.66-.17 1.34z"/></svg>
+        Démarrer un projet
+      </a>
+
+      <!-- Bouton menu mobile -->
+      <button id="menuBtn" class="md:hidden text-slate-200 p-2" aria-label="Ouvrir le menu">
+        <svg id="iconOpen" viewBox="0 0 24 24" class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        <svg id="iconClose" viewBox="0 0 24 24" class="w-6 h-6 hidden" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </nav>
+
+    <!-- Menu mobile déroulant -->
+    <div id="mobileMenu" class="md:hidden hidden mx-4 mt-2 glass rounded-2xl p-4 space-y-3 text-slate-200">
+      <a href="#accueil" class="block py-2 hover:text-cyan-brand">Accueil</a>
+      <a href="#services" class="block py-2 hover:text-cyan-brand">Services</a>
+      <a href="#portfolio" class="block py-2 hover:text-cyan-brand">Portfolio</a>
+      <a href="#temoignages" class="block py-2 hover:text-cyan-brand">Témoignages</a>
+      <a href="#contact" class="block py-2 hover:text-cyan-brand">Contact</a>
+      <a href="https://wa.me/22892264531?text=Bonjour%20Nexavia%2C%20je%20souhaite%20lancer%20un%20projet%20web." target="_blank" rel="noopener"
+         class="block text-center btn-cta px-5 py-3 rounded-xl mt-2">Démarrer un projet</a>
+    </div>
+  </header>
+
+  <!-- ======================= SECTION HERO ======================= -->
+  <section id="accueil" class="relative z-10 min-h-screen flex items-center pt-28 pb-16 px-5 sm:px-8">
+    <div class="max-w-7xl mx-auto w-full grid lg:grid-cols-2 gap-12 items-center">
+      <!-- Colonne texte -->
+      <div class="reveal">
+        <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass text-xs font-medium text-cyan-brand mb-6">
+          <span class="w-2 h-2 rounded-full bg-cyan-brand animate-ping"></span>
+          Studio web haut de gamme · Disponible pour nouveaux projets
+        </span>
+
+        <h1 class="font-display font-bold leading-[1.08] text-4xl sm:text-5xl lg:text-6xl text-white">
+          Nous transformons vos idées en
+          <span class="text-gradient">plateformes web d'exception</span>
+          qui génèrent des ventes.
+        </h1>
+
+        <p class="mt-6 text-lg text-slate-300/90 max-w-xl">
+          Nexavia conçoit des sites web sur-mesure, ultra-rapides et optimisés pour convertir vos visiteurs en clients.
+        </p>
+
+        <!-- CTAs -->
+        <div class="mt-9 flex flex-col sm:flex-row gap-4">
+          <a href="https://wa.me/22892264531?text=Bonjour%20Nexavia%2C%20je%20souhaite%20lancer%20un%20projet%20web." target="_blank" rel="noopener"
+             class="btn-cta pulse inline-flex items-center justify-center gap-2 px-7 py-4 rounded-2xl text-base">
+            <svg viewBox="0 0 24 24" class="w-5 h-5" fill="currentColor"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm5.8 13.36c-.24.68-1.4 1.3-1.93 1.34-.5.05-1.14.07-1.84-.12-.41-.13-.94-.31-1.62-.61-2.85-1.24-4.7-4.11-4.84-4.3-.15-.2-1.18-1.57-1.18-3 0-1.42.75-2.12 1.01-2.41.27-.3.58-.37.77-.37.19 0 .39 0 .56.01.18.01.42-.07.66.5.24.58.83 2 .9 2.15.07.15.12.32.02.52-.09.2-.14.32-.28.49-.14.17-.29.38-.42.51-.14.14-.28.29-.12.56.16.27.71 1.17 1.53 1.9 1.05.94 1.94 1.23 2.21 1.37.27.14.43.12.59-.07.16-.2.68-.8.86-1.07.18-.27.36-.22.61-.13.25.09 1.6.75 1.87.89.27.14.45.2.52.31.07.12.07.66-.17 1.34z"/></svg>
+            Discuter de votre projet sur WhatsApp
+          </a>
+          <a href="#portfolio" class="inline-flex items-center justify-center gap-2 px-7 py-4 rounded-2xl glass text-base text-white hover:border-cyan-brand/50 transition">
+            Voir nos réalisations
+            <svg viewBox="0 0 24 24" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+        </div>
+
+        <!-- Preuves sociales rapides -->
+        <div class="mt-10 flex flex-wrap gap-x-8 gap-y-4">
+          <div class="flex items-center gap-3">
+            <span class="font-display text-2xl font-bold text-gradient">+20</span>
+            <span class="text-sm text-slate-400 leading-tight">projets<br/>livrés</span>
+          </div>
+          <div class="flex items-center gap-3">
+            <span class="font-display text-2xl font-bold text-gradient">100%</span>
+            <span class="text-sm text-slate-400 leading-tight">clients<br/>satisfaits</span>
+          </div>
+          <div class="flex items-center gap-3">
+            <span class="font-display text-2xl font-bold text-gradient">&lt;7j</span>
+            <span class="text-sm text-slate-400 leading-tight">délai moyen<br/>de livraison</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Colonne visuelle : mockup flottant -->
+      <div class="reveal relative hidden lg:block">
+        <div class="relative mx-auto w-full max-w-md">
+          <div class="glass glow-border rounded-3xl p-5 card-hover relative z-10">
+            <div class="flex items-center gap-2 mb-4">
+              <span class="w-3 h-3 rounded-full bg-red-400/80"></span>
+              <span class="w-3 h-3 rounded-full bg-yellow-400/80"></span>
+              <span class="w-3 h-3 rounded-full bg-green-400/80"></span>
+            </div>
+            <div class="h-32 rounded-xl bg-gradient-to-br from-cyan-brand/30 to-violet-brand/30 mb-4"></div>
+            <div class="h-3 w-3/4 rounded bg-white/20 mb-3"></div>
+            <div class="h-3 w-1/2 rounded bg-white/10 mb-5"></div>
+            <div class="flex gap-3">
+              <div class="h-9 flex-1 rounded-lg bg-gradient-to-r from-cyan-brand to-blue-brand"></div>
+              <div class="h-9 w-20 rounded-lg glass"></div>
+            </div>
+          </div>
+          <div class="absolute -bottom-6 -left-6 glass rounded-2xl px-4 py-3 flex items-center gap-3 z-20 card-hover">
+            <span class="text-green-400 text-lg">▲</span>
+            <div>
+              <p class="text-xs text-slate-400">Taux de conversion</p>
+              <p class="font-display font-bold text-white">+150%</p>
+            </div>
+          </div>
+          <div class="absolute -top-6 -right-4 glass rounded-2xl px-4 py-3 flex items-center gap-3 z-20 card-hover">
+            <span class="w-2.5 h-2.5 rounded-full bg-cyan-brand animate-ping"></span>
+            <p class="text-sm text-white font-medium">En ligne 24/7</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= SECTION SERVICES ======================= -->
+  <section id="services" class="relative z-10 py-24 px-5 sm:px-8">
+    <div class="max-w-7xl mx-auto">
+      <div class="reveal text-center max-w-2xl mx-auto mb-16">
+        <p class="text-cyan-brand font-semibold tracking-widest text-sm uppercase mb-3">Ce que Nexavia apporte</p>
+        <h2 class="font-display font-bold text-3xl sm:text-4xl text-white">Des solutions web pensées pour la conversion</h2>
+        <p class="mt-4 text-slate-400">Chaque prestation est conçue pour attirer, convaincre et transformer vos visiteurs en clients payants.</p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-7">
+        <!-- Carte 1 -->
+        <article class="reveal glass glow-border relative card-hover rounded-3xl p-7">
+          <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-cyan-brand to-blue-brand flex items-center justify-center mb-6 shadow-lg shadow-cyan-brand/30">
+            <svg viewBox="0 0 24 24" class="w-7 h-7 text-[#04121a]" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-6 9 6v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 21V12h6v9"/></svg>
+          </div>
+          <h3 class="font-display text-xl font-semibold text-white mb-3">Sites Vitrines de Luxe & Conversion</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">Une présence en ligne élégante et percutante qui inspire confiance et pousse vos prospects à agir immédiatement.</p>
+          <ul class="mt-5 space-y-2 text-sm text-slate-300">
+            <li class="flex gap-2"><span class="text-cyan-brand">✦</span> Design premium sur-mesure</li>
+            <li class="flex gap-2"><span class="text-cyan-brand">✦</span> Optimisé pour mobile & SEO</li>
+            <li class="flex gap-2"><span class="text-cyan-brand">✦</span> Intégration WhatsApp & boutons CTA</li>
+          </ul>
+        </article>
+
+        <!-- Carte 2 -->
+        <article class="reveal glass glow-border relative card-hover rounded-3xl p-7">
+          <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-violet-brand to-blue-brand flex items-center justify-center mb-6 shadow-lg shadow-violet-brand/30">
+            <svg viewBox="0 0 24 24" class="w-7 h-7 text-white" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8l-9-5-9 5v8l9 5 9-5z"/><path d="M3.3 7L12 12l8.7-5M12 22V12"/></svg>
+          </div>
+          <h3 class="font-display text-xl font-semibold text-white mb-3">Apps Web & E-commerce Sur-Mesure</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">Boutiques en ligne et applications web performantes, pensées pour vendre et se connecter à vos outils (Mobile Money, Stripe…).</p>
+          <ul class="mt-5 space-y-2 text-sm text-slate-300">
+            <li class="flex gap-2"><span class="text-violet-brand">✦</span> Paiements sécurisés intégrés</li>
+            <li class="flex gap-2"><span class="text-violet-brand">✦</span> Back-office & automatisations</li>
+            <li class="flex gap-2"><span class="text-violet-brand">✦</span> Scalable & ultra-rapide</li>
+          </ul>
+        </article>
+
+        <!-- Carte 3 -->
+        <article class="reveal glass glow-border relative card-hover rounded-3xl p-7">
+          <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-brand to-cyan-brand flex items-center justify-center mb-6 shadow-lg shadow-blue-brand/30">
+            <svg viewBox="0 0 24 24" class="w-7 h-7 text-[#04121a]" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h7l-1 8 10-12h-7z"/></svg>
+          </div>
+          <h3 class="font-display text-xl font-semibold text-white mb-3">Refonte & Optimisation de Performance</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">On transforme un site lent et daté en machine à convertir : vitesse, UX, et taux de transformation au rendez-vous.</p>
+          <ul class="mt-5 space-y-2 text-sm text-slate-300">
+            <li class="flex gap-2"><span class="text-blue-brand">✦</span> Audit complet & rapport</li>
+            <li class="flex gap-2"><span class="text-blue-brand">✦</span> Chargement &lt; 2 secondes</li>
+            <li class="flex gap-2"><span class="text-blue-brand">✦</span> Hausse mesurable des ventes</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= SECTION PORTFOLIO ======================= -->
+  <section id="portfolio" class="relative z-10 py-24 px-5 sm:px-8">
+    <div class="max-w-7xl mx-auto">
+      <div class="reveal text-center max-w-2xl mx-auto mb-16">
+        <p class="text-cyan-brand font-semibold tracking-widest text-sm uppercase mb-3">Projets réalisés</p>
+        <h2 class="font-display font-bold text-3xl sm:text-4xl text-white">Des résultats, pas seulement de beaux écrans</h2>
+        <p class="mt-4 text-slate-400">Trois études de cas représentatives de l'impact que Nexavia peut créer pour votre business.</p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-7">
+        <!-- Projet 1 -->
+        <article class="reveal glass glow-border card-hover rounded-3xl overflow-hidden">
+          <div class="h-44 bg-gradient-to-br from-cyan-brand/40 via-blue-brand/30 to-violet-brand/40 relative">
+            <div class="absolute inset-0 grid-bg opacity-40"></div>
+            <span class="absolute top-4 left-4 px-3 py-1 rounded-full bg-black/40 text-xs font-medium text-white backdrop-blur">E-commerce</span>
+          </div>
+          <div class="p-6">
+            <h3 class="font-display text-lg font-semibold text-white">Aura Couture</h3>
+            <p class="text-sm text-slate-400 mt-2">Site e-commerce haut de gamme pour une maison de mode. Expérience d'achat immersive et checkout optimisé.</p>
+            <p class="mt-4 text-sm font-semibold text-gradient">+150% de ventes en ligne</p>
+            <div class="flex flex-wrap gap-2 mt-4">
+              <span class="text-xs px-2.5 py-1 rounded-lg glass text-cyan-brand">HTML/CSS</span>
+              <span class="text-xs px-2.5 py-1 rounded-lg glass text-cyan-brand">JavaScript</span>
+              <span class="text-xs px-2.5 py-1 rounded-lg glass text-cyan-brand">Stripe</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Projet 2 -->
+        <article class="reveal glass glow-border card-hover rounded-3xl overflow-hidden">
+          <div class="h-44 bg-gradient-to-br from-blue-brand/40 via-violet-brand/30 to-cyan-brand/40 relative">
+            <div class="absolute inset-0 grid-bg opacity-40"></div>
+            <span class="absolute top-4 left-4 px-3 py-1 rounded-full bg-black/40 text-xs font-medium text-white backdrop-blur">Web App</span>
+          </div>
+          <div class="p-6">
+            <h3 class="font-display text-lg font-semibold text-white">Apex Logistics</h3>
+            <p class="text-sm text-slate-400 mt-2">Application web de suivi de colis en temps réel avec tableau de bord client et notifications automatiques.</p>
+            <p class="mt-4 text-sm font-semibold text-gradient">Suivi live · -40% de tickets SAV</p>
+            <div class="flex flex-wrap gap-2 mt-4">
+              <span class="text-xs px-2.5 py-1 rounded-lg glass text-violet-brand">React</span>
+              <span class="text-xs px-2.5 py-1 rounded-lg glass text-violet-brand">API REST</span>
+              <span class="text-xs px-2.5 py-1 rounded-lg glass text-violet-brand">WebSocket</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Projet 3 -->
+        <article class="reveal glass glow-border card-hover rounded-3xl overflow-hidden">
+          <div class="h-44 bg-gradient-to-br from-violet-brand/40 via-cyan-brand/30 to-blue-brand/40 relative">
+            <div class="absolute inset-0 grid-bg opacity-40"></div>
+            <span class="absolute top-4 left-4 px-3 py-1 rounded-full bg-black/40 text-xs font-medium text-white backdrop-blur">Landing</span>
+          </div>
+          <div class="p-6">
+            <h3 class="font-display text-lg font-semibold text-white">SaaS Vision</h3>
+            <p class="text-sm text-slate-400 mt-2">Landing page dynamique pour une startup tech, orientée acquisition avec tunnel d'inscription optimisé.</p>
+            <p class="mt-4 text-sm font-semibold text-gradient">+62% d'inscriptions</p>
+            <div class="flex flex-wrap gap-2 mt-4">
+              <span class="text-xs px-2.5 py-1 rounded-lg glass text-blue-brand">Tailwind</span>
+              <span class="text-xs px-2.5 py-1 rounded-lg glass text-blue-brand">Framer</span>
+              <span class="text-xs px-2.5 py-1 rounded-lg glass text-blue-brand">SEO</span>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= SECTION TÉMOIGNAGES ======================= -->
+  <section id="temoignages" class="relative z-10 py-24 px-5 sm:px-8">
+    <div class="max-w-7xl mx-auto">
+      <div class="reveal text-center max-w-2xl mx-auto mb-16">
+        <p class="text-cyan-brand font-semibold tracking-widest text-sm uppercase mb-3">Témoignages clients</p>
+        <h2 class="font-display font-bold text-3xl sm:text-4xl text-white">Ils nous font confiance</h2>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-7">
+        <!-- Avis 1 -->
+        <figure class="reveal glass glow-border card-hover rounded-3xl p-7">
+          <div class="flex gap-1 text-cyan-brand text-lg mb-4">★★★★★</div>
+          <blockquote class="text-slate-300 text-sm leading-relaxed">“Nexavia a livré un site magnifique en moins d'une semaine. Mes ventes en ligne ont explosé dès le premier mois. Un vrai pro du design.”</blockquote>
+          <figcaption class="mt-6 flex items-center gap-3">
+            <span class="w-11 h-11 rounded-full bg-gradient-to-br from-cyan-brand to-blue-brand flex items-center justify-center font-display font-bold text-[#04121a]">AM</span>
+            <div>
+              <p class="text-white font-medium text-sm">Awa M.</p>
+              <p class="text-slate-500 text-xs">Fondatrice, Aura Couture</p>
+            </div>
+          </figcaption>
+        </figure>
+
+        <!-- Avis 2 -->
+        <figure class="reveal glass glow-border card-hover rounded-3xl p-7">
+          <div class="flex gap-1 text-cyan-brand text-lg mb-4">★★★★★</div>
+          <blockquote class="text-slate-300 text-sm leading-relaxed">“Ultra réactif et à l'écoute. L'application de suivi de colis qu'il a construite a transformé mon entreprise de logistique. Je recommande à 100%.”</blockquote>
+          <figcaption class="mt-6 flex items-center gap-3">
+            <span class="w-11 h-11 rounded-full bg-gradient-to-br from-violet-brand to-blue-brand flex items-center justify-center font-display font-bold text-white">KD</span>
+            <div>
+              <p class="text-white font-medium text-sm">Kofi D.</p>
+              <p class="text-slate-500 text-xs">Dirigeant, Apex Logistics</p>
+            </div>
+          </figcaption>
+        </figure>
+
+        <!-- Avis 3 -->
+        <figure class="reveal glass glow-border card-hover rounded-3xl p-7">
+          <div class="flex gap-1 text-cyan-brand text-lg mb-4">★★★★★</div>
+          <blockquote class="text-slate-300 text-sm leading-relaxed">“Notre landing page convertit deux fois plus qu'avant. Le travail est soigné, moderne et livré dans les temps. Merci Nexavia !”</blockquote>
+          <figcaption class="mt-6 flex items-center gap-3">
+            <span class="w-11 h-11 rounded-full bg-gradient-to-br from-blue-brand to-cyan-brand flex items-center justify-center font-display font-bold text-[#04121a]">ST</span>
+            <div>
+              <p class="text-white font-medium text-sm">Sara T.</p>
+              <p class="text-slate-500 text-xs">CMO, SaaS Vision</p>
+            </div>
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= SECTION CTA FINAL & CONTACT ======================= -->
+  <section id="contact" class="relative z-10 py-24 px-5 sm:px-8">
+    <div class="max-w-6xl mx-auto">
+      <!-- Bannière engageante -->
+      <div class="reveal relative glass glow-border rounded-[2rem] p-8 sm:p-14 text-center overflow-hidden">
+        <div class="absolute -top-24 -right-24 w-72 h-72 rounded-full bg-cyan-brand/20 blur-3xl"></div>
+        <div class="absolute -bottom-24 -left-24 w-72 h-72 rounded-full bg-violet-brand/20 blur-3xl"></div>
+
+        <h2 class="relative font-display font-bold text-3xl sm:text-4xl lg:text-5xl text-white">Prêt à propulser votre entreprise au niveau supérieur ?</h2>
+        <p class="relative mt-4 text-slate-300 max-w-xl mx-auto">Parlons de votre projet dès maintenant. Réponse rapide, devis clair, et accompagnement de A à Z.</p>
+
+        <!-- Bouton WhatsApp géant -->
+        <a href="https://wa.me/22892264531?text=Bonjour%20Nexavia%2C%20je%20souhaite%20lancer%20un%20projet%20web." target="_blank" rel="noopener"
+           class="relative inline-flex items-center justify-center gap-3 mt-9 px-10 py-5 rounded-2xl bg-[#25D366] text-white font-bold text-lg hover:bg-[#1ebe5b] transition wa-float shadow-2xl shadow-[#25D366]/40">
+          <svg viewBox="0 0 24 24" class="w-7 h-7" fill="currentColor"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm5.8 13.36c-.24.68-1.4 1.3-1.93 1.34-.5.05-1.14.07-1.84-.12-.41-.13-.94-.31-1.62-.61-2.85-1.24-4.7-4.11-4.84-4.3-.15-.2-1.18-1.57-1.18-3 0-1.42.75-2.12 1.01-2.41.27-.3.58-.37.77-.37.19 0 .39 0 .56.01.18.01.42-.07.66.5.24.58.83 2 .9 2.15.07.15.12.32.02.52-.09.2-.14.32-.28.49-.14.17-.29.38-.42.51-.14.14-.28.29-.12.56.16.27.71 1.17 1.53 1.9 1.05.94 1.94 1.23 2.21 1.37.27.14.43.12.59-.07.16-.2.68-.8.86-1.07.18-.27.36-.22.61-.13.25.09 1.6.75 1.87.89.27.14.45.2.52.31.07.12.07.66-.17 1.34z"/></svg>
+          Écrivez-nous sur WhatsApp
+          <span class="hidden sm:inline text-white/80 font-normal text-base">· +228 92264531</span>
+        </a>
+      </div>
+
+      <!-- Formulaire de contact rapide -->
+      <div class="reveal glass glow-border rounded-3xl p-8 sm:p-10 mt-10 grid md:grid-cols-2 gap-10 items-start">
+        <div>
+          <h3 class="font-display text-2xl font-semibold text-white">Envoyez-nous un message rapide</h3>
+          <p class="mt-3 text-slate-400 text-sm">Remplissez ce formulaire : nous recevons votre demande directement sur WhatsApp et vous répondons sous peu.</p>
+          <div class="mt-6 space-y-4 text-sm text-slate-300">
+            <p class="flex items-center gap-3"><span class="text-cyan-brand">✉</span> contact@nexavia.com</p>
+            <p class="flex items-center gap-3"><span class="text-cyan-brand">⏱</span> Réponse sous 24h (jours ouvrés)</p>
+            <p class="flex items-center gap-3"><span class="text-cyan-brand">🌍</span> Basé en Afrique · Clients dans le monde entier</p>
+          </div>
+        </div>
+
+        <form id="contactForm" class="space-y-4">
+          <div>
+            <label for="name" class="text-sm text-slate-300">Nom</label>
+            <input id="name" name="name" required type="text" placeholder="Votre nom"
+                   class="mt-1.5 w-full rounded-xl glass px-4 py-3 text-white placeholder-slate-500 outline-none focus:border-cyan-brand/60 transition" />
+          </div>
+          <div>
+            <label for="email" class="text-sm text-slate-300">Email</label>
+            <input id="email" name="email" required type="email" placeholder="vous@exemple.com"
+                   class="mt-1.5 w-full rounded-xl glass px-4 py-3 text-white placeholder-slate-500 outline-none focus:border-cyan-brand/60 transition" />
+          </div>
+          <div>
+            <label for="message" class="text-sm text-slate-300">Message</label>
+            <textarea id="message" name="message" required rows="4" placeholder="Décrivez votre projet en quelques mots…"
+                      class="mt-1.5 w-full rounded-xl glass px-4 py-3 text-white placeholder-slate-500 outline-none focus:border-cyan-brand/60 transition resize-none"></textarea>
+          </div>
+          <button type="submit"
+                  class="btn-cta w-full inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl">
+            Envoyer via WhatsApp
+            <svg viewBox="0 0 24 24" class="w-5 h-5" fill="currentColor"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm5.8 13.36c-.24.68-1.4 1.3-1.93 1.34-.5.05-1.14.07-1.84-.12-.41-.13-.94-.31-1.62-.61-2.85-1.24-4.7-4.11-4.84-4.3-.15-.2-1.18-1.57-1.18-3 0-1.42.75-2.12 1.01-2.41.27-.3.58-.37.77-.37.19 0 .39 0 .56.01.18.01.42-.07.66.5.24.58.83 2 .9 2.15.07.15.12.32.02.52-.09.2-.14.32-.28.49-.14.17-.29.38-.42.51-.14.14-.28.29-.12.56.16.27.71 1.17 1.53 1.9 1.05.94 1.94 1.23 2.21 1.37.27.14.43.12.59-.07.16-.2.68-.8.86-1.07.18-.27.36-.22.61-.13.25.09 1.6.75 1.87.89.27.14.45.2.52.31.07.12.07.66-.17 1.34z"/></svg>
+          </button>
+          <p id="formNote" class="text-xs text-center text-slate-500 hidden">Redirection vers WhatsApp…</p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= FOOTER ======================= -->
+  <footer class="relative z-10 border-t border-white/10 mt-10">
+    <div class="max-w-7xl mx-auto px-5 sm:px-8 py-14 grid gap-10 md:grid-cols-4">
+      <!-- Marque -->
+      <div class="md:col-span-2">
+        <a href="#accueil" class="flex items-center gap-2 mb-4">
+          <span class="w-9 h-9 rounded-xl bg-gradient-to-br from-cyan-brand to-blue-brand flex items-center justify-center">
+            <svg viewBox="0 0 24 24" class="w-5 h-5" fill="none" stroke="#04121a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 17V7l7 6 7-6v10"/></svg>
+          </span>
+          <span class="font-display font-bold text-xl text-white">Nexavia</span>
+        </a>
+        <p class="text-slate-400 text-sm max-w-sm">Studio web haut de gamme. Nous créons des plateformes sur-mesure qui transforment vos visiteurs en clients.</p>
+        <a href="mailto:contact@nexavia.com" class="inline-block mt-4 text-cyan-brand text-sm hover:underline">contact@nexavia.com</a>
+      </div>
+
+      <!-- Liens -->
+      <div>
+        <h4 class="font-display font-semibold text-white mb-4">Navigation</h4>
+        <ul class="space-y-2 text-sm text-slate-400">
+          <li><a href="#accueil" class="hover:text-cyan-brand transition">Accueil</a></li>
+          <li><a href="#services" class="hover:text-cyan-brand transition">Services</a></li>
+          <li><a href="#portfolio" class="hover:text-cyan-brand transition">Portfolio</a></li>
+          <li><a href="#temoignages" class="hover:text-cyan-brand transition">Témoignages</a></li>
+        </ul>
+      </div>
+
+      <!-- Réseaux -->
+      <div>
+        <h4 class="font-display font-semibold text-white mb-4">Suivez-nous</h4>
+        <div class="flex gap-3">
+          <a href="#" aria-label="Instagram" class="w-10 h-10 rounded-xl glass flex items-center justify-center hover:border-cyan-brand/50 transition group">
+            <svg viewBox="0 0 24 24" class="w-5 h-5 text-slate-300 group-hover:text-cyan-brand transition" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+          </a>
+          <a href="#" aria-label="Facebook" class="w-10 h-10 rounded-xl glass flex items-center justify-center hover:border-cyan-brand/50 transition group">
+            <svg viewBox="0 0 24 24" class="w-5 h-5 text-slate-300 group-hover:text-cyan-brand transition" fill="currentColor"><path d="M13 22v-8h3l1-4h-4V8c0-1 .5-2 2-2h2V2.5C18.5 2.4 17 2 15.3 2 12 2 10 3.8 10 7v3H7v4h3v8z"/></svg>
+          </a>
+          <a href="#" aria-label="LinkedIn" class="w-10 h-10 rounded-xl glass flex items-center justify-center hover:border-cyan-brand/50 transition group">
+            <svg viewBox="0 0 24 24" class="w-5 h-5 text-slate-300 group-hover:text-cyan-brand transition" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM10 9h3.8v1.7h.05c.53-1 1.8-2 3.7-2 4 0 4.7 2.6 4.7 6V21h-4v-5.3c0-1.3 0-3-1.8-3s-2.1 1.4-2.1 2.9V21h-4z"/></svg>
+          </a>
+          <a href="#" aria-label="GitHub" class="w-10 h-10 rounded-xl glass flex items-center justify-center hover:border-cyan-brand/50 transition group">
+            <svg viewBox="0 0 24 24" class="w-5 h-5 text-slate-300 group-hover:text-cyan-brand transition" fill="currentColor"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.1-1.47-1.1-1.47-.9-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.53 2.36 1.09 2.94.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.02a9.5 9.5 0 0 1 5 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.38.2 2.4.1 2.65.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.69-4.57 4.94.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10 10 0 0 0 12 2z"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="border-t border-white/10">
+      <div class="max-w-7xl mx-auto px-5 sm:px-8 py-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-500">
+        <p>© <span id="year"></span> Nexavia. Tous droits réservés.</p>
+        <div class="flex gap-5">
+          <a href="#" class="hover:text-cyan-brand transition">Mentions légales</a>
+          <a href="#" class="hover:text-cyan-brand transition">Confidentialité</a>
+          <a href="https://wa.me/22892264531" target="_blank" rel="noopener" class="hover:text-cyan-brand transition">WhatsApp</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ======================= BOUTON WHATSAPP FLOTTANT ======================= -->
+  <a href="https://wa.me/22892264531?text=Bonjour%20Nexavia%2C%20je%20souhaite%20lancer%20un%20projet%20web." target="_blank" rel="noopener"
+     aria-label="Contactez-nous sur WhatsApp"
+     class="wa-float fixed bottom-5 right-5 z-50 w-14 h-14 rounded-full bg-[#25D366] flex items-center justify-center shadow-2xl shadow-[#25D366]/40 hover:scale-110 transition">
+    <svg viewBox="0 0 24 24" class="w-7 h-7 text-white" fill="currentColor"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm5.8 13.36c-.24.68-1.4 1.3-1.93 1.34-.5.05-1.14.07-1.84-.12-.41-.13-.94-.31-1.62-.61-2.85-1.24-4.7-4.11-4.84-4.3-.15-.2-1.18-1.57-1.18-3 0-1.42.75-2.12 1.01-2.41.27-.3.58-.37.77-.37.19 0 .39 0 .56.01.18.01.42-.07.66.5.24.58.83 2 .9 2.15.07.15.12.32.02.52-.09.2-.14.32-.28.49-.14.17-.29.38-.42.51-.14.14-.28.29-.12.56.16.27.71 1.17 1.53 1.9 1.05.94 1.94 1.23 2.21 1.37.27.14.43.12.59-.07.16-.2.68-.8.86-1.07.18-.27.36-.22.61-.13.25.09 1.6.75 1.87.89.27.14.45.2.52.31.07.12.07.66-.17 1.34z"/></svg>
+  </a>
+
+  <!-- ======================= JAVASCRIPT ======================= -->
+  <script>
+    /* --- Année automatique dans le footer --- */
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    /* --- Menu mobile --- */
+    const menuBtn = document.getElementById('menuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const iconOpen = document.getElementById('iconOpen');
+    const iconClose = document.getElementById('iconClose');
+    menuBtn.addEventListener('click', () => {
+      const isOpen = mobileMenu.classList.toggle('hidden') === false;
+      iconOpen.classList.toggle('hidden', isOpen);
+      iconClose.classList.toggle('hidden', !isOpen);
+    });
+    // Fermer le menu quand on clique sur un lien
+    mobileMenu.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenu.classList.add('hidden');
+        iconOpen.classList.remove('hidden');
+        iconClose.classList.add('hidden');
+      });
+    });
+
+    /* --- Navbar : effet au scroll --- */
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 30) {
+        navbar.querySelector('nav').classList.add('shadow-2xl', 'shadow-black/40');
+      } else {
+        navbar.querySelector('nav').classList.remove('shadow-2xl', 'shadow-black/40');
+      }
+    });
+
+    /* --- Reveal au scroll (Intersection Observer) --- */
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    reveals.forEach(el => observer.observe(el));
+
+    /* --- Formulaire -> redirection WhatsApp --- */
+    const form = document.getElementById('contactForm');
+    const formNote = document.getElementById('formNote');
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const message = document.getElementById('message').value.trim();
+      const text = `Bonjour Nexavia 👋\n\nNom : ${name}\nEmail : ${email}\n\nMessage :\n${message}`;
+      const url = `https://wa.me/22892264531?text=${encodeURIComponent(text)}`;
+      formNote.classList.remove('hidden');
+      window.open(url, '_blank', 'noopener');
+      form.reset();
+      setTimeout(() => formNote.classList.add('hidden'), 3000);
+    });
+  </script>
+</body>
+</html>

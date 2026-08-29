@@ -1,0 +1,13 @@
+# Configuration Netlify pour Nexavia landing page
+# Site statique : aucune étape de build, on sert index.html depuis la racine.
+[build]
+  publish = "."
+  command = ""
+
+# Sécurité de base + en-têtes
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "DENY"
+    Referrer-Policy = "strict-origin-when-cross-origin"
