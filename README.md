@@ -22,3 +22,5 @@ Déployée sur Netlify (voir l'URL fournie après `netlify deploy`).
 netlify deploy --prod --dir .
 ```
 Ou via GitHub : importer le dépôt dans Netlify (Import from Git).
+
+Dernier déploiement : 2026-08-29 13:19 UTC via webhook GitHub→Netlify
